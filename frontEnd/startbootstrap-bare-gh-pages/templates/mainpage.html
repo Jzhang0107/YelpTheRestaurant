@@ -41,28 +41,12 @@
           <h1 class="mt-5">Where would you like to eat?</h1>
           <p class="lead">Fill in the short quiz and we'll help you choose a restaurant!</p>
           <ul class="list-unstyled">
-            <form>
-              <div class="category">What type of food would you like to eat?
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                  <label class="form-check-label" for="exampleRadios1">
-                    Chinese
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                  <label class="form-check-label" for="exampleRadios2">
-                    American
-                  </label>
-                </div>
-                <div class="form-check disabled">
-                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
-                  <label class="form-check-label" for="exampleRadios3">
-                    Dessert
-                  </label>
-                </div>
+            <form method="POST" action="/search">
+              <div class="category">What type of food would you like to eat?</br>
+                <label for="city">Enter your city:</label>
+                <input type="text" id="city" name="city"><br><br>
               </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <input type="submit" value="Submit">
             </form>
           </ul>
         </div>
