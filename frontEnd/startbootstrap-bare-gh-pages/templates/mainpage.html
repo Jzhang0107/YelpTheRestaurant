@@ -10,8 +10,25 @@
 
     <!-- Bootstrap core CSS -->
     <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- map api -->
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+       integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+       crossorigin=""></script>
+    <style>
+      #mapId
+      {
+        height: 500px;
+      }
+    </style>
+
   </head>
-  <body>
+  <body onload="getLocation()">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
       <div class="container">
@@ -52,6 +69,8 @@
               </div>
               <input type="submit" value="Submit">
             </form>
+            <div id="demo"></div>
+            <br /><div id="mapId"></div>
           </ul>
         </div>
       </div>
@@ -60,5 +79,58 @@
     <!-- Bootstrap core JavaScript -->
     <script src="static/vendor/jquery/jquery.slim.min.js"></script>
     <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- javascript for map -->
+    <script>
+        var x = document.getElementById("demo");
+        function getLocation()
+        {
+          if (navigator.geolocation)
+          {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          }
+          else
+          {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+        }
+        function showPosition(position)
+        {
+          x.innerHTML = "Latitude: " + position.coords.latitude +
+          "<br>Longitude: " + position.coords.longitude;
+
+          userLatitude = position.coords.latitude
+          userLongitude = position.coords.longitude
+          initializeMap(userLatitude, userLongitude)
+        }
+      function initializeMap(latitude, longitude)
+      {
+        //responsible for creating the map
+        var mymap = L.map('mapId').setView([latitude, longitude], 13);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+              //attribution obligatory per copyright source
+              attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+              maxZoom: 18,
+
+              //can replace id with 'mapbox/satellite-v9' if satellite view is preferred
+              id: 'mapbox/streets-v11',
+
+              //size of each tile, changing it even by 1 can offset the whole map
+              tileSize: 512,
+
+              zoomOffset: -1,
+
+              //mapbox api token
+              accessToken: ''
+          }).addTo(mymap);
+
+          //marks current location onload, maybe change to nearby restaurants onload?
+          var marker = L.marker([latitude, longitude
+          ]).addTo(mymap);
+
+          //popup to mark stuff, can possibly be used to display restaurant information
+          marker.bindPopup("<b>Your current location!</b><br>").openPopup();
+      }
+    </script>
   </body>
 </html>
