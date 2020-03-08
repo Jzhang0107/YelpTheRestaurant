@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="bob">
+    <meta name="author" content="">
 
-    <title>YelpTheRestaurant</title>
+    <title>YelpIt</title>
 
     <!-- Bootstrap core CSS -->
     <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/vendor/bootstrap/css/stylesheet.css" rel="stylesheet">
 
-    <!-- map api -->
+    <!-- Leadlet's map api -->
      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
    crossorigin=""/>
@@ -30,12 +30,20 @@
     <style>
       #mapId
       {
+        /* set the height of the map */
         height: 500px;
       }
       .backgroundImage
       {
-        background-image: url("");
+        /* make background image slightly darker so text is easier to see, set image to the full page */
+        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("static/vendor/bootstrap/css/images/generic4.jpg");
         background-size: 100%;
+      }
+      .col-lg-12
+      {
+        /* Make text bolded and white for easier visibility */
+        font-weight: bold;
+        color: White;
       }
     </style>
 
@@ -44,7 +52,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
       <div class="container">
-        <a class="navbar-brand" href="/">Home</a>
+        <a class="navbar-brand" href="/">YelpIt</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -56,7 +64,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/results">About</a>
+              <a class="nav-link" href="https://github.com/Jzhang0107/YelpTheRestaurant">Github</a>
             </li>
           </ul>
         </div>
@@ -68,16 +76,20 @@
       <div class="container" >
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1 class="mt-5">Where would you like to eat?</h1>
-            <p class="lead">Fill in the short quiz and we'll help you choose a restaurant!</p>
+            <h1 class="mt-5">What experience are you looking for?</h1>
             <ul class="list-unstyled">
-              <form method="POST" action="/results">
-                Hey! We offer two types of experiences, restaurants and cages. Which do you prefer?
-                <div class="category">Can we get your location to serve you better?</br>
-                  <label for="restaurants">Restaurants</label><br>
-                  <input type="radio" id="restaurants" name="experience" value="restaurants"><br><br>
-                  <label for="cafes">Cafes:</label><br>
-                  <input type="radio" id="cafes" name="experience" value="cafes"><br><br>
+              <form method="POST" action="/initialResults">
+                <div class="category"></br>
+                  <label for="city">Breakfast</label><br>
+                  <input type="radio" id="restaurant" name="experience" value="breakfast"><br>
+                  <label for="city">Lunch</label><br>
+                  <input type="radio" id="restaurant" name="experience" value="lunch"><br>
+                  <label for="city">Dinner</label><br>
+                  <input type="radio" id="restaurant" name="experience" value="dinner"><br>
+                  <label for="city">Cafe:</label><br>
+                  <input type="radio" id="cafe" name="experience" value="cafe"><br><br>
+                  <input type="hidden" id="latitude" name="latitude">
+                  <input type="hidden" id="longitude" name="longitude">
                 </div>
                 <input type="submit" value="Submit">
               </form><br />
@@ -87,56 +99,59 @@
         </div>
       </div>
     </div>
-    <!-- javascript for map -->
-     <script>
-       var x = document.getElementById("demo");
-       function getLocation()
-       {
-         if (navigator.geolocation)
-         {
-           navigator.geolocation.getCurrentPosition(showPosition);
-         }
-         else
-         {
-           x.innerHTML = "Geolocation is not supported by this browser.";
-         }
-       }
-       function showPosition(position)
-       {
-         userLatitude = position.coords.latitude
-         userLongitude = position.coords.longitude
-         initializeMap(userLatitude, userLongitude)
-       }
-       function initializeMap(latitude, longitude)
-       {
-         //responsible for creating the map
-         var mymap = L.map('mapId').setView([latitude, longitude], 13);
 
-         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-               //attribution obligatory per copyright source
-               attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-               maxZoom: 18,
+  <!-- javascript for map -->
+  <script>
+    function getLocation()
+    {
+        if (navigator.geolocation)
+        {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else
+        {
+          testDiv.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position)
+    {
+      // gets the user longitude and latitude
+      // set value of the hidden input fields with user long/lat to be used on next page to display nearby restaurants
+      // pass values in to create the map
+      userLatitude = position.coords.latitude;
+      userLongitude = position.coords.longitude;
+      document.getElementById("latitude").value = userLatitude;
+      document.getElementById("longitude").value = userLongitude;
+      initializeMap(userLatitude, userLongitude);
+    }
+    function initializeMap(latitude, longitude)
+    {
+      //responsible for creating the map
+      var mymap = L.map('mapId').setView([latitude, longitude], 13);
 
-               //can replace id with 'mapbox/satellite-v9' if satellite view is preferred
-               id: 'mapbox/streets-v11',
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+       //attribution obligatory per copyright source
+       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+       maxZoom: 18,
 
-               //size of each tile, changing it even by 1 can offset the whole map
-               tileSize: 512,
+       //can replace id with 'mapbox/satellite-v9' if satellite view is preferred
+       id: 'mapbox/streets-v11',
 
-               zoomOffset: -1,
+       //size of each tile, changing it even by 1 can offset the whole map
+       tileSize: 512,
 
-               //mapbox api token
-               accessToken: 'pk.eyJ1IjoianpoYW5nMDEwNyIsImEiOiJjazdjbGlvd3gwM2hrM2VwbzZkMTV1ZTFnIn0.fUmBI2WBacc0RDiLDGMcqg'
-           }).addTo(mymap);
+       zoomOffset: -1,
 
-           //marks current location onload, maybe change to nearby restaurants onload?
-           var marker = L.marker([latitude, longitude
-           ]).addTo(mymap);
+       //mapbox api token
+       accessToken: ''
+      }).addTo(mymap);
 
-           //popup to mark stuff, can possibly be used to display restaurant information
-           marker.bindPopup("<b>Your current location!</b><br>").openPopup();
-       }
-     </script>
+      //marks current location onload, maybe change to nearby restaurants onload?
+      var marker = L.marker([latitude, longitude]).addTo(mymap);
 
-  </body>
+      //popup to mark stuff, can possibly be used to display restaurant information
+      marker.bindPopup("<b>Your current location!</b><br>").openPopup();
+    }
+  </script>
+ </body>
 </html>

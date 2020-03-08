@@ -34,7 +34,7 @@
       }
       .backgroundImage
       {
-        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("static/vendor/bootstrap/css/images/generic1.jpg");
+        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("static/vendor/bootstrap/css/images/dinner1.jpg");
         background-size: 100%;
       }
       .col-lg-12
@@ -73,9 +73,18 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1 class="mt-5">{{ name[0] }} is the best match!!</h1>
-            <p class="lead">In case thats not to your liking, here are a few others in the area to check out!</p>
+            <h1 class="mt-5">Dinner!</h1>
+            <p class="lead">We displayed some popular dinner spots in your area!</p>
+            <p class="lead">If its not to your liking, feel free to search for one yourself!</p>
             <ul class="list-unstyled">
+              <form method="POST" action="/results">
+                <div class="category">
+                  <input type="text" id="type" name="type" placeholder="Type of food" required>
+                  <input type="text" id="city" name="city" placeholder="Desired location" required>
+                  <input type="number" id="price" min="1" max="4" name="price" placeholder="Price" required><br><br>
+                </div>
+                <input type="submit" value="Submit">
+              </form><br />
               <div id="mapId"></div>
             </ul>
           </div>
