@@ -3,6 +3,9 @@ import requests
 
 app = Flask(__name__)
 
+@app.route('/')
+def main():
+    return render_template('mainpage.html')
 
 @app.route('/results', methods=['POST'])
 def yelpCall():
@@ -15,13 +18,13 @@ def yelpCall():
     url = 'https://api.yelp.com/v3/businesses/search'
 
     # authorization using access token
-    headers = {'Authorization': 'Bearer '}
+    headers = {'Authorization': 'Bearer'}
 
     # parameters I'm passing in to the api request
     params = {'term': type,
               'location': city,
               'price': price,
-              'limit': 3
+              'limit': 5
               }
     # api-call
     r = requests.get(url=url, params=params, headers=headers)
@@ -34,24 +37,20 @@ def yelpCall():
 
     # information I want
     nameList = []
-    displayAddresses = []
+    addressList = []
     latitudeList = []
     longitudeList = []
 
     for business in businessList:
         nameList.append(business['name'])
-        displayAddresses.append(business['location']['display_address'])
+        addressList.append(business['location']['display_address'])
         latitudeList.append(business['coordinates']['latitude'])
         longitudeList.append(business['coordinates']['longitude'])
 
     # return str(latitudeList)
     # return str(str(nameList[0]) + "\n" + str(displayAddresses[0]) + "\n" + str(latitudeList[0]) + "\n" + str(longitudeList[0]))
 
-    return render_template('result.html', restaurantName=nameList[0], address=displayAddresses[0], latitude=latitudeList[0], longitude=longitudeList[0])
-
-@app.route('/')
-def main():
-    return render_template('mainpage.html')
+    return render_template('result.html', nameList=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList, length=len(nameList))
 
 if __name__ == '__main__':
     app.run(debug=True)

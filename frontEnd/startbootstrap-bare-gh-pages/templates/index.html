@@ -72,13 +72,12 @@
             <p class="lead">Fill in the short quiz and we'll help you choose a restaurant!</p>
             <ul class="list-unstyled">
               <form method="POST" action="/results">
-                <div class="category">Place holder</br>
-                  <label for="city">What type of food do you want:</label><br>
-                  <input type="text" id="type" name="type"><br><br>
-                  <label for="city">Enter your city:</label><br>
-                  <input type="text" id="city" name="city"><br><br>
-                  <label for="city">What is your price range(1 being cheap, 4 being expensive):</label><br>
-                  <input type="number" id="price" min="1" max="4" name="price"><br><br>
+                Hey! We offer two types of experiences, restaurants and cages. Which do you prefer?
+                <div class="category">Can we get your location to serve you better?</br>
+                  <label for="restaurants">Restaurants</label><br>
+                  <input type="radio" id="restaurants" name="experience" value="restaurants"><br><br>
+                  <label for="cafes">Cafes:</label><br>
+                  <input type="radio" id="cafes" name="experience" value="cafes"><br><br>
                 </div>
                 <input type="submit" value="Submit">
               </form><br />
@@ -127,7 +126,7 @@
                zoomOffset: -1,
 
                //mapbox api token
-               accessToken: ''
+               accessToken: 'pk.eyJ1IjoianpoYW5nMDEwNyIsImEiOiJjazdjbGlvd3gwM2hrM2VwbzZkMTV1ZTFnIn0.fUmBI2WBacc0RDiLDGMcqg'
            }).addTo(mymap);
 
            //marks current location onload, maybe change to nearby restaurants onload?

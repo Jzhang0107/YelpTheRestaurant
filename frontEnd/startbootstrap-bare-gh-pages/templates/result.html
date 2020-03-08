@@ -68,7 +68,7 @@
             <br />
             We think you'll like the following restaurants!
             <br />
-            {{ name }} located at address {{ address }}
+            {{ nameList }} located at address {{ address }}
             <br />
             <div id="demo"></div><br />
             <div id="mapId"></div>
@@ -91,16 +91,39 @@
        console.log("longitude is " + longitude)
 
        main()
+       var entityMap = {
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': '&quot;',
+              "'": '&#39;',
+              "/": '&#x2F;'
+          };
        function main()
        {
          latitude = {{ latitude }}
          longitude = {{ longitude }}
          initializeMap(latitude, longitude)
        }
+       entityMap = {
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': '&quot;',
+              "'": '&#39;',
+              "/": '&#x2F;'
+          };
+       function escapeHtml(string)
+       {
+           return String(string).replace(/[&<>"'\/]/g, function (s)
+           {
+               return entityMap[s];
+           });
+       }
        function initializeMap(latitude, longitude)
        {
          //responsible for creating the map
-         var mymap = L.map('mapId').setView([latitude, longitude], 13);
+         var mymap = L.map('mapId').setView([latitude[0], longitude[0]], 14);
 
          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                //attribution obligatory per copyright source
@@ -119,14 +142,21 @@
                accessToken: ''
            }).addTo(mymap);
 
-           //marks current location onload, maybe change to nearby restaurants onload?
-           var marker = L.marker([latitude, longitude
-           ]).addTo(mymap);
 
-           //popup to mark stuff, can possibly be used to display restaurant information
-           marker.bindPopup(
-          "<b> {{restaurantName}} !</b><br> {{ address[0] }} {{ address[1] }} {{ address[2] }}").openPopup();
+           for(var i = 0; i < {{ length }}; i++)
+           {
+             console.log(escapeHtml({{ nameList[i] }}))
+             // name = {{ nameList }}.replace("&#39", "")
+             // console.log(name[i])
+             var marker = L.marker([latitude[i], longitude[i]])
+             // var name = {{ nameList[i] }}
+             // adds the current latitude and longitude location to the map
+             .addTo(mymap)
+             // adds a small popup info with name of restaurant and address
+             .bindPopup({{ nameList[i] }}.replace("&39", "")).openPopup();
+           }
        }
+
      </script>
 
   </body>
