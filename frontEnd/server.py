@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return render_template('templates/helloWorld.html')
+    return render_template('helloWorld.html')
 
 
 @app.route('/initialResults', methods=['POST'])
