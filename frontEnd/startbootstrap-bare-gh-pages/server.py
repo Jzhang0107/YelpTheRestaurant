@@ -101,5 +101,6 @@ def yelpCall():
 
     return render_template('result.html', url=urlList, imageUrl=imageUrlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList)
 
+
 if __name__ == '__main__':
     app.run(debug=True)
