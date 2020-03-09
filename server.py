@@ -68,7 +68,7 @@ def yelpCall():
     url = 'https://api.yelp.com/v3/businesses/search'
 
     # authorization using access token
-    headers = {'Authorization': "Bearer " + os.environ['yelp_token']}}
+    headers = {'Authorization': "Bearer " + os.environ['yelp_token']}
 
     # parameters I'm passing in to the api request
     params = {'term': type,
