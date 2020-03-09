@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 import requests
+from boto.s3.connection import S3Connection
+import os
 
 app = Flask(__name__)
 
@@ -17,7 +19,7 @@ def restaurantCall():
     url = 'https://api.yelp.com/v3/businesses/search'
 
     # authorization using access token
-    headers = {'Authorization': 'Bearer '}
+    headers = {'Authorization': 'Bearer os.environ["yelp_token"]'}
 
     # parameters I'm passing in to the api request
     params = {'term': experience,
@@ -27,7 +29,7 @@ def restaurantCall():
               'limit': 5
               }
     # api-call
-    r = requests.get(url=url, params=params, headers=headers)
+    r = requests.get(url=url, params=params, headers=headers, mapBox_token=os.environ['mapbox_token'])
 
     # information passed back from api
     apiDict = r.json()
@@ -64,7 +66,7 @@ def yelpCall():
     url = 'https://api.yelp.com/v3/businesses/search'
 
     # authorization using access token
-    headers = {'Authorization': 'Bearer XHoBaTmGs7DiPn7JlY6EA10LTjn1lBXxk6NXKFHGjjTbq1CgBkDujSGvi_din1w1yHe_PFzoz_ULnULTwUUoQkxby5-xB7BJMm8rNYH0SNYA3qwiHwBL0qXFeVpQXnYx'}
+    headers = {'Authorization': 'Bearer os.environ["yelp_token"]'}
 
     # parameters I'm passing in to the api request
     params = {'term': type,
