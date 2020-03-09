@@ -54,6 +54,7 @@ def restaurantCall():
 
     return render_template(experience + '.html', imageUrl= imageUrlList, url=urlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList)
 
+
 @app.route('/results', methods=['POST'])
 def yelpCall():
     # information passed in from the form
