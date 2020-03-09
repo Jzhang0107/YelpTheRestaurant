@@ -8,6 +8,7 @@ app = Flask(__name__)
 def main():
     return render_template('index.html')
 
+
 @app.route('/initialResults', methods=['POST'])
 def restaurantCall():
     experience = request.form['experience']
@@ -100,7 +101,7 @@ def yelpCall():
         urlList.append(business['url'])
         imageUrlList.append(business['image_url'])
 
-    return render_template('result.html', url=urlList, imageUrl=imageUrlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList)
+    return render_template('result.html', mapBox_token=os.environ['mapbox_token'], url=urlList, imageUrl=imageUrlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList)
 
 
 if __name__ == '__main__':
