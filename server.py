@@ -30,7 +30,7 @@ def restaurantCall():
               'limit': 5
               }
     # api-call
-    r = requests.get(url=url, params=params, headers=headers, mapBox_token=os.environ['mapbox_token'])
+    r = requests.get(url=url, params=params, headers=headers)
 
     # information passed back from api
     apiDict = r.json()
@@ -54,7 +54,7 @@ def restaurantCall():
         urlList.append(business['url'])
         imageUrlList.append(business['image_url'])
 
-    return render_template(experience + '.html', imageUrl= imageUrlList, url=urlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList)
+    return render_template(experience + '.html', imageUrl= imageUrlList, url=urlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList, mapBox_token=os.environ['mapbox_token'])
 
 
 @app.route('/results', methods=['POST'])
