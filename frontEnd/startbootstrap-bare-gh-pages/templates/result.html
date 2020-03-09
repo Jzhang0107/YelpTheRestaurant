@@ -114,7 +114,7 @@
               zoomOffset: -1,
 
               // mapbox api token
-              accessToken: 'mapBox_token'
+              accessToken: os.environ["mapbox_token"]
           }).addTo(mymap);
 
           // manually creating each plot point and popup because yelp's api returns restaurant names with
