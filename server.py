@@ -38,7 +38,7 @@ def restaurantCall():
     # list of dictionaries, each index is an individual business
     businessList = apiDict['businesses']
 
-    return str(businessList)
+    return str(apiDict)
 
     # information I want
     nameList = []
