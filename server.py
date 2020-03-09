@@ -20,7 +20,7 @@ def restaurantCall():
     url = 'https://api.yelp.com/v3/businesses/search'
 
     # authorization using access token
-    headers = {'Authorization': 'Bearer os.environ["yelp_token"]'}
+    headers = {'Authorization': "Bearer os.environ['yelp_token'']"}
 
     # parameters I'm passing in to the api request
     params = {'term': experience,
@@ -38,6 +38,8 @@ def restaurantCall():
     # list of dictionaries, each index is an individual business
     businessList = apiDict['businesses']
 
+    return str(businessList)
+
     # information I want
     nameList = []
     addressList = []
@@ -54,7 +56,7 @@ def restaurantCall():
         urlList.append(business['url'])
         imageUrlList.append(business['image_url'])
 
-    return render_template(experience + '.html', imageUrl= imageUrlList, url=urlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList, mapBox_token=os.environ['mapbox_token'])
+    # return render_template(experience + '.html', imageUrl= imageUrlList, url=urlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList, mapBox_token=os.environ['mapbox_token'])
 
 
 @app.route('/results', methods=['POST'])
