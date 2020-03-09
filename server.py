@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return str(os.environ["yelp_token"])
+    return str(os.environ["mapbox_token"])
 
 
 @app.route('/initialResults', methods=['POST'])
