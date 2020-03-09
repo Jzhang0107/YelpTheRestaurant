@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return str(os.environ["mapbox_token"])
+    return render_template('index.html', mapBox_token=os.environ['mapbox_token'])
 
 
 @app.route('/initialResults', methods=['POST'])
