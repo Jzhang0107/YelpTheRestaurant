@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import requests
-from boto.s3.connection import S3Connection
 import os
 
 app = Flask(__name__)
