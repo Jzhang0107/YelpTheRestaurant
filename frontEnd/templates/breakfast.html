@@ -34,7 +34,7 @@
       }
       .backgroundImage
       {
-        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("static/vendor/bootstrap/css/images/cafe1.jpg");
+        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url("static/vendor/bootstrap/css/images/breakfast1.jpg");
         background-size: 100%;
       }
       .col-lg-12
@@ -73,8 +73,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1 class="mt-5">Cafe!</h1>
-            <p class="lead">We displayed some popular cafe spots in your area!</p>
+            <h1 class="mt-5">Breakfast!</h1>
+            <p class="lead">We displayed some popular breakfast spots in your area!</p>
             <p class="lead">If its not to your liking, feel free to search for one yourself!</p>
             <ul class="list-unstyled">
               <form method="POST" action="/results">
@@ -92,63 +92,63 @@
       </div>
     </div>
 
-    <!-- javascript for map -->
-    <script>
-      main()
-      function main()
-      {
-        // gets the latitude and longitude lists received from the server
-        latitude = {{ latitude }}
-        longitude = {{ longitude }}
-        initializeMap(latitude, longitude)
-      }
-      function initializeMap(latitude, longitude)
-      {
-        //plot map with the first restaurant as center
-        var mymap = L.map('mapId').setView([latitude[0], longitude[0]], 14);
+   <!-- javascript for map -->
+   <script>
+     main()
+     function main()
+     {
+       // gets the latitude and longitude lists received from the server
+       latitude = {{ latitude }}
+       longitude = {{ longitude }}
+       initializeMap(latitude, longitude)
+     }
+     function initializeMap(latitude, longitude)
+     {
+       //plot map with the first restaurant as center
+       var mymap = L.map('mapId').setView([latitude[0], longitude[0]], 14);
 
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-        {
-              // attribution obligatory per copyright source
-              attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-              maxZoom: 18,
+       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
+       {
+             // attribution obligatory per copyright source
+             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+             maxZoom: 18,
 
-              // can replace id with 'mapbox/satellite-v9' if satellite view is preferred
-              id: 'mapbox/streets-v11',
+             // can replace id with 'mapbox/satellite-v9' if satellite view is preferred
+             id: 'mapbox/streets-v11',
 
-              // size of each tile, do not change or won't display properly
-              tileSize: 512,
+             // size of each tile, do not change or won't display properly
+             tileSize: 512,
 
-              // zoom number used in tile url offset by this number, do not change or won't display properly
-              zoomOffset: -1,
+             // zoom number used in tile url offset by this number, do not change or won't display properly
+             zoomOffset: -1,
 
-              // mapbox api token
-              accessToken: '{{ mapBox_token }}'
-          }).addTo(mymap);
+             // mapbox api token
+             accessToken: {{ mapBox_token }}
+         }).addTo(mymap);
 
-          // manually creating each plot point and popup because yelp's api returns restaurant names with
-          // the apostrophes(') replaced by its ascii equivalent which cant be printed out properly
-          // only popup open on map is the first one since it is the best match
-          var marker1 = L.marker([latitude[0], longitude[0]])
-          .addTo(mymap)
-          .bindPopup("<img src= '{{ imageUrl[0] }}' width=120px height=80px><br /><b><a href='{{ url[0] }}'>{{ name[0] }}</a></b><br> {{ address[0] }}").openPopup();
+         // manually creating each plot point and popup because yelp's api returns restaurant names with
+         // the apostrophes(') replaced by its ascii equivalent which cant be printed out properly
+         // only popup open on map is the first one since it is the best match
+         var marker1 = L.marker([latitude[0], longitude[0]])
+         .addTo(mymap)
+         .bindPopup("<img src= '{{ imageUrl[0] }}' width=120px height=80px><br /><b><a href='{{ url[0] }}'>{{ name[0] }}</a></b><br> {{ address[0] }}").openPopup();
 
-          var marker2 = L.marker([latitude[1], longitude[1]])
-          .addTo(mymap)
-          .bindPopup("<img src= '{{ imageUrl[1] }}' width=120px height=80px><br /><b><a href='{{ url[1] }}'>{{ name[1] }}</a></b><br> {{ address[1] }}");
+         var marker2 = L.marker([latitude[1], longitude[1]])
+         .addTo(mymap)
+         .bindPopup("<img src= '{{ imageUrl[1] }}' width=120px height=80px><br /><b><a href='{{ url[1] }}'>{{ name[1] }}</a></b><br> {{ address[1] }}");
 
-          var marker3 = L.marker([latitude[2], longitude[2]])
-          .addTo(mymap)
-          .bindPopup("<img src= '{{ imageUrl[2] }}' width=120px height=80px><br /><b><a href='{{ url[2] }}'>{{ name[2] }}</a></b><br> {{ address[2] }}");
+         var marker3 = L.marker([latitude[2], longitude[2]])
+         .addTo(mymap)
+         .bindPopup("<img src= '{{ imageUrl[2] }}' width=120px height=80px><br /><b><a href='{{ url[2] }}'>{{ name[2] }}</a></b><br> {{ address[2] }}");
 
-          var marker4 = L.marker([latitude[3], longitude[3]])
-          .addTo(mymap)
-          .bindPopup("<img src= '{{ imageUrl[3] }}' width=120px height=80px><br /><b><a href='{{ url[3] }}'>{{ name[3] }}</a></b><br> {{ address[3] }}");
+         var marker4 = L.marker([latitude[3], longitude[3]])
+         .addTo(mymap)
+         .bindPopup("<img src= '{{ imageUrl[3] }}' width=120px height=80px><br /><b><a href='{{ url[3] }}'>{{ name[3] }}</a></b><br> {{ address[3] }}");
 
-          var marker5 = L.marker([latitude[4], longitude[4]])
-          .addTo(mymap)
-          .bindPopup("<img src= '{{ imageUrl[4] }}' width=120px height=80px><br /><b><a href='{{ url[4] }}'>{{ name[4] }}</a></b><br> {{ address[4] }}");
-      }
-    </script>
+         var marker5 = L.marker([latitude[4], longitude[4]])
+         .addTo(mymap)
+         .bindPopup("<img src= '{{ imageUrl[4] }}' width=120px height=80px><br /><b><a href='{{ url[4] }}'>{{ name[4] }}</a></b><br> {{ address[4] }}");
+     }
+   </script>
   </body>
 </html>
