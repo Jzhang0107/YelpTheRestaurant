@@ -38,8 +38,6 @@ def restaurantCall():
     # list of dictionaries, each index is an individual business
     businessList = apiDict['businesses']
 
-    return str(apiDict)
-
     # information I want
     nameList = []
     addressList = []
@@ -56,7 +54,7 @@ def restaurantCall():
         urlList.append(business['url'])
         imageUrlList.append(business['image_url'])
 
-    # return render_template(experience + '.html', imageUrl= imageUrlList, url=urlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList, mapBox_token=os.environ['mapbox_token'])
+    return render_template(experience + '.html', imageUrl= imageUrlList, url=urlList, name=nameList, address=addressList, latitude=latitudeList, longitude=longitudeList, mapBox_token=os.environ['mapbox_token'])
 
 
 @app.route('/results', methods=['POST'])
