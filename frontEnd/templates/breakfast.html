@@ -123,7 +123,11 @@
              zoomOffset: -1,
 
              // mapbox api token
+<<<<<<< HEAD:frontEnd/templates/breakfast.html
              accessToken: {{ mapBox_token }}
+=======
+             accessToken: os.environ["mapbox_token"]
+>>>>>>> 6c3926f... fixed mapbox token:frontEnd/startbootstrap-bare-gh-pages/templates/breakfast.html
          }).addTo(mymap);
 
          // manually creating each plot point and popup because yelp's api returns restaurant names with

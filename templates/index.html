@@ -143,7 +143,11 @@
        zoomOffset: -1,
 
        //mapbox api token
+<<<<<<< HEAD:templates/index.html
        accessToken: '{{ mapBox_token }}'
+=======
+       accessToken: os.environ["mapbox_token"]
+>>>>>>> 6c3926f... fixed mapbox token:frontEnd/startbootstrap-bare-gh-pages/templates/index.html
       }).addTo(mymap);
 
       //marks current location onload, maybe change to nearby restaurants onload?
