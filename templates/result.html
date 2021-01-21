@@ -89,8 +89,8 @@
       function main()
       {
         // gets the latitude and longitude lists received from the server
-        latitude = {{ latitude }}
-        longitude = {{ longitude }}
+        latitude = { latitude };
+        longitude = { longitude };
         initializeMap(latitude, longitude)
       }
       function initializeMap(latitude, longitude)
@@ -114,11 +114,7 @@
               zoomOffset: -1,
 
               // mapbox api token
-<<<<<<< HEAD:templates/result.html
-              accessToken: '{{ mapBox_token }}'
-=======
               accessToken: os.environ["mapbox_token"]
->>>>>>> 6c3926f... fixed mapbox token:frontEnd/startbootstrap-bare-gh-pages/templates/result.html
           }).addTo(mymap);
 
           // manually creating each plot point and popup because yelp's api returns restaurant names with
